@@ -1,0 +1,43 @@
+<?xml version="1.0" encoding="UTF-8"?>
+<plugin xmlns="http://apache.org/cordova/ns/plugins/1.0"
+    xmlns:android="http://schemas.android.com/apk/res/android"
+    id="com.matd.SpeechRecPlug"
+    version="0.2.11">
+    <name>SpeechRecPlug</name>
+    <description>The coolest Plugin ever implemented</description>
+    <license>Apache 2.0</license>
+    <keywords>cordova,coolest</keywords>
+    <repo></repo>
+    <issue></issue>
+
+    <js-module src="www/SpeechRecPlug.js" name="SpeechRecPlug">
+        <clobbers target="SpeechRecPlug" />
+    </js-module>
+
+    <!-- android -->
+    <platform name="android">
+        <config-file target="res/xml/config.xml" parent="/*">
+            <feature name="SpeechRecPlug" >
+                <param name="android-package" value="SpeechRecPlug"/>
+            </feature>
+        </config-file>
+        <source-file src="src/android/SpeechRecPlug.java" target-dir="src/" />
+		
+		 <config-file target="res/xml/config.xml" parent="/*">
+            <feature name="diff_match_patch" >
+                <param name="android-package" value="diff_match_patch"/>
+            </feature>
+        </config-file>
+        <source-file src="src/android/diff_match_patch.java" target-dir="src/" />
+        
+         <config-file target="res/xml/config.xml" parent="/*">
+            <feature name="AudioRecorder" >
+                <param name="android-package" value="AudioRecorder"/>
+            </feature>
+        </config-file>
+        <source-file src="src/android/AudioRecorder.java" target-dir="src/" />
+        
+		
+    </platform>
+
+</plugin>

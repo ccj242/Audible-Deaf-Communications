@@ -1,0 +1,334 @@
+ <style>
+ .title{
+
+text-align:left !important;
+padding-left:50px;
+}
+
+.bar-positive{
+background-color:#3F51B5 !important
+}
+
+</style>
+<br><br><br>
+
+<input style="position:absolute;bottom:0px" id="keyboard_input" spellcheck="true" autocomplete="off" autocorrect="on" ng-model="input" ng-change="inputfunc()">
+
+
+<ion-side-menus enable-menu-with-back-views="false">
+  <ion-side-menu-content drag-content="false">
+    
+<ion-nav-bar class="bar-positive menu-bar">
+<ion-nav-title>
+<div style="padding-top:2px" ng-click="share()">
+      <b style="font-size:33px">Audible </b> </span><span ng-if="false" style="font-size:17px;padding-right:5px"> Build <b>0.8.7 </b> </span><span style="font-size:25px" class="ion-android-share-alt">
+      </div>
+    </ion-nav-title>
+  <ion-nav-buttons side="left">
+        <button style="padding-left:15px;padding-top:1px;font-size:40px !important" class="button button-large button-icon button-clear ion-android-more-vertical" menu-toggle="left">
+        </button>
+      </ion-nav-buttons>
+        <ion-nav-buttons side="right">
+        <div ng-if="!record" ng-click="startRecognition()">
+        <img src="img/a.png" style="width:20px;padding-top:3px">
+<button class="button button-large button-icon button-clear" style="padding-top:1px"> <b>Hear</b>
+        </button>
+        </div>
+         <div ng-if="record">
+<button class="button button-large button-icon button-clear ion-ios-pause" ng-click="stopRecognition()"> Pause
+        </button>
+        </div>
+      </ion-nav-buttons>
+ </ion-nav-bar>
+    <ion-nav-view>
+<!--//////////////Content/////////////////////////-->
+<div on-swipe-left="clearoutput()" style="position:absolute;right:0px;height:100%;width:50%"></div>
+
+<!--Works but starts at the top rather than starting at the bottom
+<ion-content class="has-header">
+<div style="position:relative;min-height:150px">
+<div id="test"></div>
+</div>
+</ion-content>
+-->
+<!-- Works but doesn't scroll-->
+ <div style="padding-left:15px;padding-right:15px">
+ <div id="test" style="font-size:25px;text-transform: capitalize;position:absolute;bottom:50px">   
+ </div>
+ </div>
+
+ <div ng-click="clearoutput()" ng-if="output" style="position:absolute;top:50px;right:10px;color:gray">Swipe <b>Right to Left</b> to Clear Output</div>
+
+
+<div ng-if="!output" class="padding" style="text-align:center;padding-top:50px;font-size:2.5vmin;line-height:3vmin">
+<!--
+<ion-slide-box show-pager="true">
+ <ion-slide>
+ -->
+
+ <!--No crumbs slidebox? Just modals that open to each prompt?-->
+
+ <!--ng-click="openModal()"-->
+
+<div class="padding" style="text-align:center;color:black;
+font-size:5vmin;line-height:5vmin;padding-bottom:5px">
+<img src="img/b.png" style="padding-left:8px;width:14vmin;padding-bottom:5px"><br>
+Listen and <b>transcribe</b> speech from the microphone or audio jack live to <b>text</b></div>Use a <b>shotgun mic </b> for best results or plug into live audio feed from a phone or television. 
+      <div class="padding" style="text-align:center;padding-top:2vmin;color:black;font-size:5vmin;line-height:5vmin;padding-bottom:5px"><span class="ion-chatbubble-working" style="font-size:15vmin;color:rgb(24,202,27)"></span><br><b>Speak</b> what you type on the touchscreen or bluetooth <b>keyboard</b>
+      </div>
+      Works seemlessly with in-person or phone conversations when connected via our <b>special 3.5mm cord</b> to a phone. 
+      <div class="padding" style="text-align:center;padding-top:2vmin;color:black;font-size:5vmin;line-height:5vmin;padding-bottom:5px"><span class="ion-shuffle" style="font-size:13vmin;color:#ff6633"></span><br>Do <b>both</b> translating from any language to another. </div>Listen in <b>French</b>, transcribe to <b>German</b>. Type in <b>Japanese</b>, speak in <b>English</b>.
+
+   
+ <!--
+      <div class="padding" style="text-align:center;padding-top:8vmin;font-size:2vmin">
+      ©2016 Christopher Cinq-Mars Jarvis
+      </div>
+      -->
+      <!--
+<br><br><br><br><br>
+
+ </ion-slide>
+ <ion-slide>
+ fdkaljfdklas
+       <div class="padding" style="text-align:center;padding-top:2vmin;color:black;font-size:4.5vmin;line-height:4vmin"><span class="ion-earth ion-ios-world-outline" style="font-size:14vmin;color:rgb(255,0,0)"></span><br><b>Share us</b> on social media and download one of our other <b>non-profit</b>, free apps! </div>
+ </ion-slide>
+      </ion-slide-box>
+      -->
+</div>
+<!--///////////////////////////////////////////-->
+    </ion-nav-view>
+  </ion-side-menu-content>
+
+  <ion-side-menu side="left">
+    
+    <ion-content>
+      <ion-list>
+      <div class="item item-divider">
+        <b>Options</b>
+    </div>
+            <ion-item class="item item-input item-select">
+          
+    <div class="input-label">
+      Language
+    </div>
+    <select ng-model="options.lang" ng-change="optionschange();setlanguage()">
+     <option value="en-US" selected>English</option>
+    <option value="ar-SA">Arabic</option>
+    <option value="zh-CN">Chinese</option>
+    <option value="fr-CA">French</option>
+    <option value="de-AT">German</option>
+    <option value="it-CH">Italian</option>
+    <option value="ja-XX">Japanese</option>
+    <option value="pt-BR">Portuguese</option>
+     <option value="ru-MO">Russian</option>
+    <option value="es-MX">Spanish</option>
+    </select>
+
+        </ion-item>
+          <ion-item class="item item-input item-select">
+          
+    <div class="input-label">
+      Translation
+    </div>
+    <select ng-model="options.trans" ng-change="optionschange()">
+    <option value="en-US" selected>English</option>
+    <option value="ar-SA">Arabic</option>
+    <option value="zh-CN">Chinese</option>
+    <option value="fr-CA">French</option>
+    <option value="de-AT">German</option>
+    <option value="it-CH">Italian</option>
+    <option value="ja-XX">Japanese</option>
+    <option value="pt-BR">Portuguese</option>
+     <option value="ru-MO">Russian</option>
+    <option value="es-MX">Spanish</option>
+    </select>
+
+        </ion-item>
+        <ion-item class="item item-input item-select">
+          
+    <div class="input-label">
+      Speech Speed
+    </div>
+    <select ng-model="options.rate" ng-change="optionschange()">
+      <option value="1.8" >2.0x</option>
+      <option value="1.4">1.5x</option>
+      <!--<option>1.2x</option>-->
+      <option value=".9" selected>1.0x</option>
+      <option value=".74">0.8x</option>
+      <option value=".45">0.5x</option>
+    </select>
+
+
+
+        </ion-item>
+        <!--
+        <div class="item item-divider">
+         About
+          </div>
+        <ion-item menu-close href="#/app/browse">
+          Info
+        </ion-item>
+        <ion-item menu-close href="#/app/playlists">
+          Video
+        </ion-item>
+        -->
+          <!--FIXXXXXXXX -->
+          <div class="item item-divider" ng-click="phoneflare()">
+         <b>PhoneFlare</b>: Free Safety App
+          </div>
+
+          <div class="padding" style="font-size:12px;text-align:center;padding-top:15px;padding-bottom:10px" ng-click="phoneflare()">
+            <img style="width:128px" src="img/PF_Rounded_Icon.png"><br>
+<b>PhoneFlare</b> is a free, volunteer run app that texts friends and family your updated GPS location and calls your school's safety dispatch if incapacitated
+          </div>
+
+             <div class="item item-divider" ng-click="synonymy()">
+         <b>Synonymy</b>: A Free Word Game
+          </div>
+
+          <div class="padding" style="font-size:12px;text-align:center;padding-top:15px;padding-bottom:10px" ng-click="synonymy()">
+            <img style="width:128px" src="img/256.png"><br>
+An educational word game narrated by <b>Richard Dawkins</b>. Award winning, and a feature at E3 and in GDC's prestigious Experimental Game Workshop
+          </div>
+
+                <div class="item item-divider" ng-click="birdsupstairs()">
+         <b>The Birds Upstairs</b>: Short Film
+          </div>
+
+          <div class="padding" style="font-size:12px;text-align:center;padding-top:15px;padding-bottom:10px" ng-click="birdsupstairs()">
+            <img style="width:128px" src="img/birds.png"><br>
+Student Academy Award nominated animated <b>short film</b>
+          </div>
+
+                <div class="item item-divider" ng-click="smstactics()">
+         <b>SMS Tactics</b>: A Free Game
+          </div>
+
+          <div class="padding" style="font-size:12px;text-align:center;padding-top:15px;padding-bottom:10px" ng-click="smstactics()">
+            <img style="width:128px" src="img/SMS_Tactics2.png"><br>
+An <b>experimental</b> texting game about manipulation and trust.
+          </div>
+
+                <div class="item item-divider" ng-click="sugarsweet()">
+         <b>SugarSweet</b>: A Free App
+          </div>
+
+          <div class="padding" style="font-size:12px;text-align:center;padding-top:15px;padding-bottom:10px" ng-click="sugarsweet()">
+            <img style="width:128px" src="img/sugarsweet.png"><br>
+A free app to identify <b>sugar alcohols</b> in your pantry or at the grocery store
+          </div>
+
+                    <div class="item item-divider" ng-click="wordunk()">
+         <b>Word Unknown</b>: A Free Game
+          </div>
+
+          <div class="padding" style="font-size:12px;text-align:center;padding-top:15px;padding-bottom:10px" ng-click="wordunk()">
+            <img style="width:128px" src="img/wordunknown.png"><br>
+An elegant and addictive mix of hangman and mastermind. 
+          </div>
+
+                    <div class="item item-divider" ng-click="iconic()">
+         <b>Iconic Passwords</b>: A Free App
+          </div>
+
+          <div class="padding" style="font-size:12px;text-align:center;padding-top:15px;padding-bottom:10px" ng-click="iconic()">
+            <img style="width:128px" src="img/Iconic.png"><br>
+An innovative <b>password</b> management system
+          </div>
+
+          <div class="item item-divider" ng-click="tmm()">
+         <b>TypeMyMusic</b>: A Free Font
+          </div>
+
+          <div class="padding" style="font-size:12px;text-align:center;padding-top:15px;padding-bottom:10px" ng-click="tmm()">
+            <img style="width:128px" src="img/example.png"><br>
+A free and easy to use music notation <b>font</b>
+          </div>
+
+
+
+
+
+
+
+
+
+          <!--
+            <ion-item menu-close href="#/app/browse">
+          Synonymy
+        </ion-item>
+        <ion-item menu-close href="#/app/playlists">
+          SMS Tactics
+        </ion-item>
+        <ion-item menu-close href="#/app/playlists">
+          The Birds Upstairs
+        </ion-item>
+        -->
+        <!--
+           <div class="item item-divider">
+         Connect
+          </div>
+  -->
+      </ion-list>
+    </ion-content>
+  </ion-side-menu>
+</ion-side-menus>
+
+
+
+ <ion-footer-bar class="bar-positive">
+
+  <ion-footer-bar class="bar-positive" style="width:48px">
+
+<div ng-if="!input.length || input=='No Text to Speak!'" ng-click="keyboardbutton()">
+<img src="img/key.png" style="width:46px;padding-left:10px">
+</div>
+
+<div ng-if="input.length && input!=='No Text to Speak!'" ng-click="clearspeak()" style="font-size:60px !important">
+<button style="padding-left:10px" class="button button-large button-icon button-clear ion-ios-close-empty">
+        </button>
+</div>
+
+
+</ion-footer-bar>
+
+
+
+<div style="position:absolute;right:82px;bottom:3px;white-space: nowrap">
+  <h1 style="font-weight:normal;font-size:16px;left:0px !important;color:white">{{input}}</h1>
+</div>
+
+
+<div ng-if="!speaking" ng-click="speak()">
+    <button style="position:absolute;right:8px!important" class="button button-balanced"><b>Speak</b></button>
+</div>
+<div ng-if="speaking">
+    <button style="position:absolute;right:8px !important" class="button button-assertive" ng-click="interrupt()"><b>Stop</b></button>
+</div>
+
+
+</ion-footer-bar>
+
+
+<script id="my-modal.html" type="text/ng-template">
+  <ion-modal-view>
+      
+
+    <ion-content>
+    <ion-header-bar class="bar-positive">
+    <!--<ion-nav-buttons side="right">
+        <button class="button button-icon button-clear ion-plus-round " ng-click="closeModal()">
+        </button>
+      </ion-nav-buttons>
+      -->
+      <button class="button button-icon button-clear ion-ios-close-empty " ng-click="closeModal()">
+        </button>
+    </ion-header-bar>
+        
+    </ion-content>
+
+  </ion-modal-view>
+
+</script>
+
